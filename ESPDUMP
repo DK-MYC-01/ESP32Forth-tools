@@ -4,7 +4,7 @@
 \         Dumping an "illegal address" will chrash Forth and your ESP32 wil restart! (like original DUMP)
 
 \  12345678 00 11 22 33 44 55 66 77 - 00 1122 33 44 55 66 77  AAAAAAAA BBBBBBBB 
-\  Offset       ----------8Bytes---------    ----------8Bytes---------  -------USASCII--------
+\  Offset   --------8Bytes--------- ----------8Bytes-------- -------USASCII--------
 
 base @	\ remember current base
 hex	\ all dumping must show HEX bytes
