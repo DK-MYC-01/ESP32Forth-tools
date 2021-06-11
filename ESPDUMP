@@ -3,8 +3,8 @@
 \ OBS: Dump line will always start on an address  with low order nibble = 0 e.g.:  FF4CAAA0 
 \         Dumping an "illegal address" will chrash Forth and your ESP32 wil restart! (like original DUMP)
 
-\  12345678 00 11 22 33 44 55 66 77 - 00 1122 33 44 55 66 77  AAAAAAAA BBBBBBBB 
-\  Offset   --------8Bytes--------- ----------8Bytes-------- -------USASCII--------
+\  12345678 00 11 22 33 44 55 66 77 - 00 11 22 33 44 55 66 77  AAAAAAAA BBBBBBBB 
+\  Offset   --------8Bytes---------   ----------8Bytes-------- ----USASCII------
 
 base @	\ remember current base
 hex	\ all dumping must show HEX bytes
@@ -12,8 +12,8 @@ hex	\ all dumping must show HEX bytes
 variable myOffset
 variable myLineCount
    	 
-: MyOffset. 	myOffset @ <# # # # # # # # #s #> TYPE space  ;    \ Print a 32bit ADR, 8 CHARS WIDE
-: Byte. 		<# # #s space #> type ;			           \ Print a byte (2 nibbles) and a space
+: MyOffset. 	myOffset @ <# # # # # # # # #s #> TYPE space  ;    	\ Print a 32bit ADR, 8 CHARS WIDE
+: Byte. 		<# # #s space #> type ;			         \ Print a byte (2 nibbles) and a space
 : b>c. 		dup 21 < if drop 7E then dup 7E > if drop 7E then emit ;  \ Print a valid USASCII char or a "~" (7E)
 \		 "." not used as normal seen in dumps, as a "." is often used in FORTH code
 : 8Bytes. 		8 0 
@@ -47,7 +47,7 @@ variable myLineCount
 			    dup 
 			    1+ myOffset !
 			    c@ b>c.			    
-			    I 7 = if space then \ insert a blank seperator after 8 USASCII chars
+			    I 7 = if space then \ insert a blank separetor after 8 USASCII chars
 			loop
 		myLineCount @ 1- 
 		dup myLineCount ! ( all lines printed? )
