@@ -1,14 +1,14 @@
 (  ESPDUMP.TXT  )
 \ Goal: Allways show all requested bytes (and may be some more), at least in 1 full line!
-\ OBS: 
+\ Developed on ESP32Forth 7.0.5     OBS:
 \ With "0xDUMP" dump line will always start on an address  with low order nibble = 0 e.g.:  FF4CAAA0 
-\ With "xDUMP"   dump line will always start on the exact address you enetred
-\ Warning:          Dumping an "illegal address" will chrash Forth and your ESP32 wil restart! (like original DUMP)
+\ With "xDUMP"  dump line will always start on the exact address you enetred
+\ Warning:      Dumping an "illegal address" will chrash Forth and your ESP32 will restart! (like original DUMP)
 \ Dump formatting:
-\  12345678 00 11 22 33 44 55 66 77 - 00 1122 33 44 55 66 77  AAAAAAAA BBBBBBBB 
-\  Offset       ----------8Bytes---------    ----------8Bytes---------  -------USASCII--------
+\  12345678 00 11 22 33 44 55 66 77 - 00 11 22 33 44 55 66 77  AAAAAAAA BBBBBBBB 
+\  Offset   ----------8Bytes-------   ----------8Bytes-------  -------USASCII---
 
-base @	\ remember current base
+base @	\ remember current base at compile tile
 hex	\ all dumping must show HEX bytes
 
 variable myOffset
@@ -29,14 +29,14 @@ variable myLineCount
 
 : RememberBase	base @		( adr n  --- adr n base)    \ remember current base
 		-rot		( --- base adr n )
-		hex		\ DUMP must show HEX bytes
+		hex		\ DUMP must show HEX bytes, run time base
 ;
 
 : DoDump
 	begin	cr MyOffset.  8Bytes.  ."  -"   8Bytes. 
 		\ hex bytes printed, now show valid USACII code bytes, or an "." :
 		myOffset @ 10 - 
-		myOffset !  \ go 16 bytes back again, and now print 16 USASCII chars:
+		myOffset !  \ go back 16 bytes again, and now print 16 USASCII chars:
 		space
 		10 0	do myOffset @	\ print 16 USASCII chars
 			    dup 
@@ -44,7 +44,7 @@ variable myLineCount
 			    c@ b>c.			    
 			    I 7 = if space then \ insert a blank seperator after 8 USASCII chars
 			loop
-		myLineCount @ 1- 
+		myLineCount @ 1-  \ dump next line
 		dup myLineCount ! ( all lines printed? )
 		0=		( --- flag )
 	until
