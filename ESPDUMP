@@ -13,7 +13,7 @@ variable myOffset
 variable myLineCount
    	 
 : MyOffset. 	myOffset @ <# # # # # # # # #s #> TYPE space  ;    	\ Print a 32bit ADR, 8 CHARS WIDE
-: Byte. 		<# # #s space #> type ;			         \ Print a byte (2 nibbles) and a space
+: Byte. 		<# # #s #> space type ;			         \ Print a byte (2 nibbles) and a space
 : b>c. 		dup 21 < if drop 7E then dup 7E > if drop 7E then emit ;  \ Print a valid USASCII char or a "~" (7E)
 \		 "." not used as normal seen in dumps, as a "." is often used in FORTH code
 : 8Bytes. 		8 0 
