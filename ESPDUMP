@@ -33,7 +33,7 @@ variable myLineCount
 ;
 
 : DoDump
-	begin	cr MyOffset.  8Bytes.  ."  -"   8Bytes. 
+	begin	cr MyOffset.  8Bytes.  ." - "   8Bytes. 
 		\ hex bytes printed, now show valid USACII code bytes, or an "." :
 		myOffset @ 10 - 
 		myOffset !  \ go back 16 bytes again, and now print 16 USASCII chars:
